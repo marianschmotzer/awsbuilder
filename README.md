@@ -15,9 +15,7 @@
 
 ## Overview
 
-A one-maybe-two sentence summary of what the module does/what problem it solves.
-This is your 30 second elevator pitch for your module. Consider including
-OS/Puppet version it works with.
+This module builds loadbalancer, application servers installs security groups. 
 
 ## Module Description
 
@@ -31,49 +29,86 @@ management, etc.) this is the time to mention it.
 
 ## Setup
 
-### What awsbuilder affects
-
-* A list of files, packages, services, or operations that the module will alter,
-  impact, or execute on the system it's installed on.
-* This is a great place to stick any warnings.
-* Can be in list or paragraph form.
 
 ### Setup Requirements **OPTIONAL**
 
-If your module requires anything extra before setting up (pluginsync enabled,
-etc.), mention it here.
+Require:
+Following security groups to be in VPC 
+1. security group with tags  name = ssh 
+2. security group with tags   name = monitoring ;
 
+Server where is builder running must have IAM role of admin for account(or any account with permissions to manage EC2 and vpc) to witch VPC belongs
+ 
 ### Beginning with awsbuilder
 
-The very basic steps needed for a user to get the module up and running.
+Builds flowing security groups:
+ ${cluster_name}-appservers - for applications servers
+ ${cluster_name}-databases - for database servers NOT RDS ONLY EC
+ ${cluster_name}-loadbalancers - for loadbalancer servers
 
-If your most recent release breaks compatibility or requires particular steps
-for upgrading, you may wish to include an additional section here: Upgrading
-(For an example, see http://forge.puppetlabs.com/puppetlabs/firewall).
+## Examle usage
 
-## Usage
+$dp_app_servers = {
+ 
+        b1adp => {
+                servername => 'b1adp.coresuite.com',
+                ipaddress => '10.3.1.15',
+                port => '8443',
+                instance_type => undef,
+                security_group => undef,
+                image_id => undef,
+                availability_zone => undef,
+                subnet => undef,
+                disksize => undef,
+                },
+ 
+        b1bdp => {
+                servername => 'b1bdp.coresuite.com',
+                ipaddress => '10.3.2.15',
+                port => '8443',
+                instance_type => undef,
+                security_group => undef,
+                image_id => undef,
+                availability_zone => undef,
+                subnet => undef,
+                disksize => undef,
+                },
+}
+ 
+$dp_lb_servers = {
+ 
+        l1adp => {
+                servername => 'l1adp.coresuite.com',
+                ipaddress => '10.3.1.6',
+                port => '8443',
+                instance_type => 'm3.medium',
+                security_group => undef,
+                image_id => undef,
+                availability_zone => undef,
+                subnet => undef,
+                disksize => undef,
+                },
+ 
+}
+ 
+$dp_db_servers = {
+ 
+        d1adpmc => {
+                servername => 'd1adpmc.coresuite.com',
+                ipaddress => '10.3.1.101',
+                port => '8443',
+                instance_type => 'm3.large',
+                security_group => undef,
+                image_id => undef,
+                availability_zone => undef,
+                subnet => undef,
+                disksize => undef,
+                },
+ 
+}
 
-Put the classes, types, and resources for customizing, configuring, and doing
-the fancy stuff with your module here.
-
-## Reference
-
-Here, list the classes, types, providers, facts, etc contained in your module.
-This section should include all of the under-the-hood workings of your module so
-people know what the module is touching on their system but don't need to mess
-with things. (We are working on automating this section!)
 
 ## Limitations
 
-This is where you list OS compatibility, version compatibility, etc.
+Is only example how to use puppet aws module - you need to modify it to meet your reqiurements
 
-## Development
-
-Since your module is awesome, other users will want to play with it. Let them
-know what the ground rules for contributing are.
-
-## Release Notes/Contributors/Etc **Optional**
-
-If you aren't using changelog, put your release notes here (though you should
-consider using changelog). You may also add any additional sections you feel are
-necessary or important to include here. Please use the `## ` header.
