@@ -1,0 +1,17 @@
+{
+  "name": "scma-awsbuilder",
+  "version": "0.1.0",
+  "author": "Marian Schmotzer",
+  "summary": "Creates app servers,loadbalancers, subnets if necessary",
+  "license": "Apache 2.0",
+  "source": "git.coresystems.ch:/operation-puppet-modules/",
+  "project_page": "https://confluence.coresystems.ch/display/CLOP/awsbuilder",
+  "issues_url": "jira.coresystems.ch",
+  "dependencies": [
+    {
+      "name": "puppetlabs-stdlib",
+      "version_range": ">= 1.0.0"
+    }
+  ]
+}
+
